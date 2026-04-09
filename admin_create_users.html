@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Criar Usuários Supabase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .separator {
+            border-top: 2px solid #e0e0e0;
+            margin: 40px 0;
+            padding-top: 20px;
+        }
+        
+        .separator h2 {
+            font-size: 16px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .status.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.loading {
+            display: block;
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Admin - Criar Usuários</h1>
+        
+        <div class="info-box">
+            ℹ️ Preencha os dados abaixo para criar os usuários de login na plataforma.
+        </div>
+        
+        <!-- Usuário 1 -->
+        <div class="form-group">
+            <label for="email1">Email do Usuário 1</label>
+            <input type="email" id="email1" value="smota5200@gmail.com" placeholder="email@exemplo.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="password1">Senha do Usuário 1</label>
+            <input type="password" id="password1" value="123456" placeholder="senha">
+        </div>
+        
+        <button class="btn-primary" onclick="createUser(1)">Criar Usuário 1</button>
+        <div id="status1" class="status"></div>
+        
+        <div class="separator">
+            <h2>Usuário 2</h2>
+        </div>
+        
+        <!-- Usuário 2 -->
+        <div class="form-group">
+            <label for="email2">Email do Usuário 2</label>
+            <input type="email" id="email2" value="elainex2018@gmail.com" placeholder="email@exemplo.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="password2">Senha do Usuário 2</label>
+            <input type="password" id="password2" value="123456" placeholder="senha">
+        </div>
+        
+        <button class="btn-primary" onclick="createUser(2)">Criar Usuário 2</button>
+        <div id="status2" class="status"></div>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'http://localhost:3001';
+        
+        async function createUser(userNumber) {
+            const emailId = `email${userNumber}`;
+            const passwordId = `password${userNumber}`;
+            const statusId = `status${userNumber}`;
+            
+            const email = document.getElementById(emailId).value.trim();
+            const password = document.getElementById(passwordId).value.trim();
+            const statusElement = document.getElementById(statusId);
+            
+            // Validação
+            if (!email || !password) {
+                statusElement.className = 'status error';
+                statusElement.textContent = '❌ Preencha email e senha!';
+                return;
+            }
+            
+            // Mostrar loading
+            statusElement.className = 'status loading';
+            statusElement.textContent = '⏳ Criando usuário...';
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/admin/create-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.user) {
+                    statusElement.className = 'status success';
+                    statusElement.textContent = `✅ Usuário criado com sucesso!\nEmail: ${email}`;
+                } else if (data.error && data.error.includes('already exists')) {
+                    statusElement.className = 'status error';
+                    statusElement.textContent = '⚠️ Este email já está registrado!';
+                } else {
+                    statusElement.className = 'status error';
+                    statusElement.textContent = `❌ Erro: ${data.error || 'Erro desconhecido'}`;
+                }
+            } catch (error) {
+                statusElement.className = 'status error';
+                statusElement.textContent = `❌ Erro de conexão: ${error.message}\n\n⚠️ Certifique-se que o backend está rodando em http://localhost:3001`;
+                console.error('Erro:', error);
+            }
+        }
+    </script>
+</body>
+</html>

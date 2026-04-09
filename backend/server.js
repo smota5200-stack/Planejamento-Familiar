@@ -553,6 +553,41 @@ app.post('/api/credit-cards', authenticateToken, async (req, res) => {
 });
 
 // ============================================================
+// ROTAS DE ADMIN
+// ============================================================
+
+// Create user (for admin panel)
+app.post('/admin/create-user', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password required' });
+    }
+
+    const { data, error } = await supabase.auth.signUpWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      // Check if user already exists
+      if (error.message.includes('already exists')) {
+        return res.status(400).json({ error: 'User already exists' });
+      }
+      return res.status(400).json({ error: error.message });
+    }
+
+    res.status(201).json({
+      message: 'User created successfully',
+      user: data.user
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ============================================================
 // Error Handler
 // ============================================================
 
