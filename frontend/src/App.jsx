@@ -3,7 +3,6 @@ import { useNavigate, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Welcome from './pages/Welcome'
-import { supabase, getCurrentUser, getOrCreateFamily } from './lib/supabase'
 import './App.css'
 
 function App() {
@@ -14,26 +13,20 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(true)
 
   useEffect(() => {
-    const initializeAuth = async () => {
+    const initializeAuth = () => {
       try {
-        console.log('[App] Initializing authentication')
-        // Verificar se há usuário logado no Supabase
-        const user = await getCurrentUser()
-        console.log('[App] Current user:', user?.email || 'none')
+        // Verificar se está logado no localStorage
+        const savedUser = localStorage.getItem('sb-user')
         
-        if (user) {
+        if (savedUser) {
+          const user = JSON.parse(savedUser)
           setUser(user)
           
-          // Obter ou criar família para este usuário
-          const fam = await getOrCreateFamily(user.id)
-          setFamily(fam)
-        } else {
-          // Tentar recuperar do localStorage (para compatibilidade)
-          const saved = localStorage.getItem('sb-user')
-          if (saved) {
-            const parsedUser = JSON.parse(saved)
-            setUser(parsedUser)
-          }
+          // Criar família fake para demo
+          setFamily({
+            id: 'family-demo',
+            name: 'Minha Família'
+          })
         }
 
         // Verificar se já viu boas-vindas
@@ -42,7 +35,7 @@ function App() {
           setShowWelcome(false)
         }
       } catch (error) {
-        console.error('[App] Initialization error:', error)
+        console.error('[App] Init error:', error)
       } finally {
         setLoading(false)
       }
@@ -51,23 +44,7 @@ function App() {
     initializeAuth()
   }, [])
 
-  // Escutar mudanças de autenticação
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        setUser(session.user)
-        // Atualizar família quando usuário muda
-        getOrCreateFamily(session.user.id).then(fam => setFamily(fam))
-      } else {
-        setUser(null)
-        setFamily(null)
-      }
-    })
 
-    return () => {
-      subscription?.unsubscribe()
-    }
-  }, [])
 
   const handleWelcomeEnd = () => {
     localStorage.setItem('welcomed', 'true')
