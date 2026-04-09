@@ -1,0 +1,232 @@
+#!/usr/bin/env bash
+
+# 📌 CARTÃO DE REFERÊNCIA RÁPIDA - IMPRIMA ISTO SE QUISER!
+
+cat << 'CARD'
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║   🚀 PLANEJAMENTO FAMILIAR - DEPLOYMENT REFERENCE CARD                   ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 1: COMECE POR AQUI                                                │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. Abra VS Code e leia este arquivo:                                  │
+│     📚_INDICE_GUIAS_DEPLOY.md                                          │
+│                                                                         │
+│  2. Depois abra UM DESTES (escolha seu nível):                         │
+│     ⚡_QUICK_START_5MIN.md ........... Se quer ir RÁPIDO              │
+│     🎯_DEPLOY_COMPLETO_VISUAL.md .... Se quer DETALHES               │
+│                                                                         │
+│  3. Siga o passo-a-passo                                               │
+│                                                                         │
+│  4. Pronto! App online em 30 min                                        │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 2: 3 SERVIÇOS QUE VOCÊ VAI USAR                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1️⃣  SUPABASE (Banco de dados)                                          │
+│      URL: https://supabase.com                                         │
+│      O que fazer:                                                       │
+│      • Criar projeto "planejamento-familiar"                           │
+│      • Executar SQL: supabase_setup.sql                                │
+│      • Copiar 2 chaves (URL + anon key)                                │
+│      Tempo: 10 min                                                      │
+│                                                                         │
+│  2️⃣  GITHUB (Guardar código)                                            │
+│      URL: https://github.com                                           │
+│      O que fazer:                                                       │
+│      • Criar repositório "planejamento-familiar"                       │
+│      • Executar git push (copie/cole do guia)                          │
+│      Tempo: 5 min                                                       │
+│                                                                         │
+│  3️⃣  VERCEL (Deploy online)                                             │
+│      URL: https://vercel.com                                           │
+│      O que fazer:                                                       │
+│      • Conectar GitHub account                                         │
+│      • Importar repo "planejamento-familiar"                           │
+│      • Root Directory: ./frontend                                       │
+│      • Adicionar 3 env vars (de Supabase)                              │
+│      • Deploy!                                                          │
+│      Tempo: 10 min                                                      │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 3: AS 3 CHAVES QUE VOCÊ PRECISA                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  Onde pegar:  Supabase → Seu projeto → Settings → API                 │
+│                                                                         │
+│  ✓ VITE_SUPABASE_URL                                                   │
+│    Ex: https://xyzabc123.supabase.co                                   │
+│    Guarde em: frontend/.env.local                                       │
+│    Também em: Vercel Settings → Environment Variables                  │
+│                                                                         │
+│  ✓ VITE_SUPABASE_ANON_KEY                                              │
+│    Ex: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...                        │
+│    Guarde em: frontend/.env.local                                       │
+│    Também em: Vercel Settings → Environment Variables                  │
+│                                                                         │
+│  ✓ VITE_API_URL                                                        │
+│    Valor: http://localhost:3000                                        │
+│    Já está em: frontend/.env.local                                      │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 4: ARQUIVO .env.local (ONDE COLOCA AS CHAVES)                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. Abra VS Code                                                        │
+│     File → Open → frontend/.env.local                                   │
+│                                                                         │
+│  2. Você vê:                                                            │
+│     VITE_SUPABASE_URL=https://demo.supabase.co                        │
+│     VITE_SUPABASE_ANON_KEY=demo_key_local_development                 │
+│     VITE_API_URL=http://localhost:3001                                 │
+│                                                                         │
+│  3. SUBSTITUA pelos valores REAIS:                                     │
+│     VITE_SUPABASE_URL=https://seu_projeto.supabase.co                │
+│     VITE_SUPABASE_ANON_KEY=eyJhbGc...sua_chave...                    │
+│     VITE_API_URL=http://localhost:3000                                 │
+│                                                                         │
+│  4. Salve (Ctrl+S)                                                     │
+│                                                                         │
+│  5. Terminal: git add . && git push                                     │
+│                                                                         │
+│  6. PRONTO! Vercel vai detectar mudança automaticamente                 │
+│                                                                         │
+│  Mais detalhes: 📝_COMO_ATUALIZAR_ENV.md                              │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 5: TIMELINE RECOMENDADA                                           │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  MIN 00-05:  Leia 📚_INDICE_GUIAS_DEPLOY.md                           │
+│              Decide qual guia seguir                                    │
+│                                                                         │
+│  MIN 05-10:  Crie conta Supabase (supabase.com)                       │
+│              Crie projeto "planejamento-familiar"                       │
+│                                                                         │
+│  MIN 10-12:  Execute SQL (supabase_setup.sql no Supabase)             │
+│              Copie 2 chaves                                            │
+│                                                                         │
+│  MIN 12-15:  Crie conta GitHub (github.com)                           │
+│              Crie repositório "planejamento-familiar"                   │
+│                                                                         │
+│  MIN 15-17:  No terminal: git push  (copie/cola do guia)              │
+│                                                                         │
+│  MIN 17-20:  Atualizar frontend/.env.local                            │
+│              git add + git commit + git push                           │
+│                                                                         │
+│  MIN 20-25:  Crie conta Vercel (vercel.com)                           │
+│              Conecte com GitHub                                        │
+│              Importar repo                                             │
+│                                                                         │
+│  MIN 25-27:  Configure Vercel:                                         │
+│              Root Directory: ./frontend                                 │
+│              Add 3 env vars                                             │
+│              Deploy!                                                    │
+│                                                                         │
+│  MIN 27-30:  Aguarde build + deploy                                    │
+│              Teste login (sergio@gmail.com / 123456)                   │
+│                                                                         │
+│  TOTAL: 30 MINUTOS! ✅                                                  │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 6: DEU ERRO 404? (Se Deploy não funcionou)                       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  Abra IMEDIATAMENTE: 🐛_CORRIGIR_ERRO_404_VERCEL.md                  │
+│                                                                         │
+│  Checklist rápido:                                                      │
+│  ☐ Root Directory = ./frontend (Vercel Settings)                       │
+│  ☐ Environment Variables tem 3 chaves (Vercel Settings)                │
+│  ☐ npm run build funciona localmente                                   │
+│  ☐ Código está no GitHub (git push foi feito)                         │
+│                                                                         │
+│  Se ainda não funcionar, siga guia detalhado no arquivo 🐛             │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 7: DEPOIS QUE FICOU ONLINE (PRÓXIMOS PASSOS)                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ✅ App rodando: https://planejamento-familiar-nnn.vercel.app         │
+│                                                                         │
+│  Teste:                                                                 │
+│  1. Clique "Visit" (link que Vercel fornece)                           │
+│  2. Vê tela de LOGIN (roxo bonito)                                     │
+│  3. Login: sergio@gmail.com / 123456                                   │
+│  4. Vê 22 módulos na Dashboard                                         │
+│  5. Clique em módulo qualquer e teste                                  │
+│                                                                         │
+│  Compartilhe:                                                           │
+│  1. Copie URL do app                                                   │
+│  2. Envia para: Sergio, Elaine, Enzo, família                         │
+│  3. Eles criam conta própria                                           │
+│  4. Todos veem dados sincronizados em tempo real! ✨                  │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ 📁 LISTA DE TODOS OS ARQUIVOS PARA DEPLOY                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ 📚 REFERÊNCIA                                                           │
+│ • 📚_INDICE_GUIAS_DEPLOY.md ........... Mapa de documentos            │
+│                                                                         │
+│ ⚡ QUICK START (escolha 1)                                             │
+│ • ⚡_QUICK_START_5MIN.md ............ Para ir RÁPIDO (5-10 min)      │
+│ • 🎯_DEPLOY_COMPLETO_VISUAL.md ..... Para DETALHES (20-30 min)      │
+│                                                                         │
+│ 📊 ENTENDER                                                             │
+│ • 📊_DIAGRAMA_VISUAL.md ............. Visão de cima (3 min)           │
+│                                                                         │
+│ 🔧 CONFIGURAR                                                           │
+│ • 📝_COMO_ATUALIZAR_ENV.md .......... .env.local guide (2 min)       │
+│ • deploy_scripts_prontos.sh ........  Copy/paste commands (0 min)     │
+│                                                                         │
+│ 🐛 TROUBLESHOOT                                                         │
+│ • 🐛_CORRIGIR_ERRO_404_VERCEL.md ... Se der erro (5-10 min)          │
+│                                                                         │
+│ ℹ️ E MAIS...                                                            │
+│ • 🎯_LEIA_PRIMEIRO_DEPLOY.sh ....... Overview inicial (1 min)         │
+│ • Todos os outros arquivos do projeto (código, schema, etc)            │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║  🎉 VOCÊ TEM TUDO QUE PRECISA!                                            ║
+║                                                                            ║
+║  Comece por: 📚_INDICE_GUIAS_DEPLOY.md                                     ║
+║  Depois siga: ⚡_QUICK_START_5MIN.md (ou visual completo)                  ║
+║  Em 30 minutos seu app está ONLINE!                                        ║
+║                                                                            ║
+║  Boa sorte! 🚀                                                             ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+CARD
+
