@@ -38,18 +38,22 @@ export const signUp = async (email, password) => {
 }
 
 export const signIn = async (email, password) => {
+  console.log('[signIn] Starting login for:', email)
   try {
+    console.log('[signIn] Calling Supabase auth...')
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
+    console.log('[signIn] Response - error:', error?.message, 'sessionExists:', !!data?.session)
+    
     if (error) {
-      console.error('Login error details:', error)
+      console.error('Login error details:', error.message)
       throw new Error(error.message || 'Erro ao fazer login')
     }
     return { data, error: null }
   } catch (error) {
-    console.error('Sign in catch error:', error)
+    console.error('Sign in catch error:', error.message)
     const errorMsg = error?.message || error?.toString() || 'Erro de conexão. Verifique sua internet.'
     return { data: null, error: errorMsg }
   }
