@@ -1,0 +1,169 @@
+import React, { useState } from 'react'
+import { supabase } from '../lib/supabase'
+
+export default function AdminPanel() {
+  const [users, setUsers] = useState([
+    { email: 'smota5200@gmail.com', password: '123456', status: null },
+    { email: 'elainex2018@gmail.com', password: '123456', status: null }
+  ])
+
+  const createUser = async (index) => {
+    const user = users[index]
+    const newUsers = [...users]
+    newUsers[index].status = 'loading'
+    setUsers(newUsers)
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: user.email,
+        password: user.password
+      })
+
+      if (error) {
+        if (error.message.includes('already exists')) {
+          newUsers[index].status = 'exists'
+        } else {
+          newUsers[index].status = 'error'
+          newUsers[index].message = error.message
+        }
+      } else {
+        newUsers[index].status = 'success'
+      }
+    } catch (error) {
+      newUsers[index].status = 'error'
+      newUsers[index].message = error.message
+    }
+
+    setUsers(newUsers)
+  }
+
+  return (
+    <div style={styles.container}>
+      <h1>🔐 Admin - Criar Usuários</h1>
+      
+      <div style={styles.infoBox}>
+        ℹ️ Clique nos botões abaixo para criar os usuários de login
+      </div>
+
+      {users.map((user, idx) => (
+        <div key={idx} style={styles.userCard}>
+          <div style={styles.userInfo}>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Senha:</strong> {user.password}</p>
+          </div>
+
+          <button
+            onClick={() => createUser(idx)}
+            disabled={user.status === 'loading'}
+            style={{
+              ...styles.button,
+              opacity: user.status === 'loading' ? 0.6 : 1
+            }}
+          >
+            {user.status === 'loading' ? '⏳ Criando...' : `Criar Usuário ${idx + 1}`}
+          </button>
+
+          {user.status === 'success' && (
+            <div style={styles.success}>
+              ✅ Usuário criado com sucesso!
+            </div>
+          )}
+
+          {user.status === 'exists' && (
+            <div style={styles.warning}>
+              ⚠️ Este email já está registrado. Faça login com essas credenciais.
+            </div>
+          )}
+
+          {user.status === 'error' && (
+            <div style={styles.error}>
+              ❌ Erro: {user.message}
+            </div>
+          )}
+        </div>
+      ))}
+
+      <div style={styles.footer}>
+        <p>
+          Após criar os usuários, faça login e comece a usar o app! 🚀
+        </p>
+      </div>
+    </div>
+  )
+}
+
+const styles = {
+  container: {
+    maxWidth: '600px',
+    margin: '40px auto',
+    padding: '40px',
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+  },
+  infoBox: {
+    background: '#f0f4ff',
+    borderLeft: '4px solid #667eea',
+    padding: '15px',
+    borderRadius: '6px',
+    marginBottom: '25px',
+    fontSize: '14px',
+    color: '#555'
+  },
+  userCard: {
+    marginBottom: '25px',
+    padding: '20px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    border: '1px solid #e0e0e0'
+  },
+  userInfo: {
+    marginBottom: '15px',
+    fontSize: '14px'
+  },
+  button: {
+    width: '100%',
+    padding: '12px',
+    backgroundColor: '#667eea',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    fontSize: '16px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    transition: 'all 0.3s'
+  },
+  success: {
+    marginTop: '10px',
+    padding: '10px',
+    backgroundColor: '#d4edda',
+    color: '#155724',
+    borderRadius: '4px',
+    fontSize: '13px'
+  },
+  warning: {
+    marginTop: '10px',
+    padding: '10px',
+    backgroundColor: '#fff3cd',
+    color: '#856404',
+    borderRadius: '4px',
+    fontSize: '13px'
+  },
+  error: {
+    marginTop: '10px',
+    padding: '10px',
+    backgroundColor: '#f8d7da',
+    color: '#721c24',
+    borderRadius: '4px',
+    fontSize: '13px'
+  },
+  footer: {
+    marginTop: '40px',
+    padding: '20px',
+    backgroundColor: '#f0f4ff',
+    borderRadius: '8px',
+    textAlign: 'center',
+    color: '#555',
+    fontSize: '14px'
+  }
+}

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Routes, Route } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Welcome from './pages/Welcome'
+import Admin from './pages/Admin'
 import { supabase, getCurrentUser, getOrCreateFamily } from './lib/supabase'
 import './App.css'
 
@@ -82,14 +83,24 @@ function App() {
     )
   }
 
-  if (showWelcome) {
-    return <Welcome onEnter={handleWelcomeEnd} />
-  }
-
   return (
-    <div className="min-h-screen bg-bg text-text">
-      {user ? <Dashboard user={user} family={family} /> : <Login />}
-    </div>
+    <Routes>
+      <Route path="/admin" element={<Admin />} />
+      <Route 
+        path="*" 
+        element={
+          <div className="min-h-screen bg-bg text-text">
+            {showWelcome && user === null ? (
+              <Welcome onEnter={handleWelcomeEnd} />
+            ) : user ? (
+              <Dashboard user={user} family={family} />
+            ) : (
+              <Login />
+            )}
+          </div>
+        } 
+      />
+    </Routes>
   )
 }
 
