@@ -62,6 +62,10 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Error:', error);
-    return res.status(500).json({ error: error.message || 'Internal server error' });
+    return res.status(500).json({ 
+      error: 'Internal server error',
+      details: error.message,
+      type: error.constructor.name
+    });
   }
 }
