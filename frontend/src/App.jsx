@@ -67,7 +67,7 @@ function App() {
     }
   }, [])
 
-  // Escutar sintaxização em tempo real da família (para múltiplas abas)
+  // Escutar sincronização em tempo real da família (para múltiplas abas)
   useEffect(() => {
     if (!family?.id) return
 
@@ -92,7 +92,7 @@ function App() {
       .subscribe()
 
     return () => {
-      supabase.removeChannel(channel)
+      channel.unsubscribe()
     }
   }, [family?.id])
 
