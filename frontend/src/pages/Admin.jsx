@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { supabase } from '../lib/supabase'
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([
@@ -20,17 +19,25 @@ export default function AdminPanel() {
     setUsers(newUsers)
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: user.email,
-        password: user.password
+      const response = await fetch('/api/create-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: user.email,
+          password: user.password
+        })
       })
 
-      if (error) {
-        if (error.message.includes('already exists')) {
+      const data = await response.json()
+
+      if (!response.ok) {
+        if (response.status === 409) {
           newUsers[index].status = 'exists'
         } else {
           newUsers[index].status = 'error'
-          newUsers[index].message = error.message
+          newUsers[index].message = data.error || 'Erro ao criar usuário'
         }
       } else {
         newUsers[index].status = 'success'
