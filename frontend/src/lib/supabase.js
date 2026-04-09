@@ -25,10 +25,15 @@ export const signUp = async (email, password) => {
         emailRedirectTo: `${window.location.origin}/dashboard`,
       }
     })
-    if (error) throw error
+    if (error) {
+      console.error('Signup error details:', error)
+      throw new Error(error.message || 'Erro ao criar conta')
+    }
     return { data, error: null }
   } catch (error) {
-    return { data: null, error: error.message }
+    console.error('Sign up catch error:', error)
+    const errorMsg = error?.message || error?.toString() || 'Erro de conexão. Verifique sua internet.'
+    return { data: null, error: errorMsg }
   }
 }
 
@@ -38,10 +43,15 @@ export const signIn = async (email, password) => {
       email,
       password,
     })
-    if (error) throw error
+    if (error) {
+      console.error('Login error details:', error)
+      throw new Error(error.message || 'Erro ao fazer login')
+    }
     return { data, error: null }
   } catch (error) {
-    return { data: null, error: error.message }
+    console.error('Sign in catch error:', error)
+    const errorMsg = error?.message || error?.toString() || 'Erro de conexão. Verifique sua internet.'
+    return { data: null, error: errorMsg }
   }
 }
 

@@ -6,7 +6,7 @@ import { signIn, signUp, getCurrentUser } from '../lib/supabase'
 export default function Login() {
   const navigate = useNavigate()
   const [isLogin, setIsLogin] = useState(true)
-  const [email, setEmail] = useState('sergio@gmail.com')
+  const [email, setEmail] = useState('smota5200@gmail.com')
   const [password, setPassword] = useState('123456')
   const [fullName, setFullName] = useState('Usuário')
   const [loading, setLoading] = useState(false)
