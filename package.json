@@ -1,0 +1,13 @@
+{
+  "name": "lifeos",
+  "version": "1.0.0",
+  "description": "LifeOS - Planejamento Familiar Completo",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

@@ -1,0 +1,483 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #16161f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e6f0;
+    --muted: #6b6880;
+    --accent: #7c5cfc;
+    --accent2: #a78bfa;
+    --green: #22d3a0;
+    --amber: #f59e0b;
+    --coral: #f87171;
+    --blue: #60a5fa;
+    --pink: #f472b6;
+  }
+  
+  body { background: transparent; font-family: 'DM Sans', sans-serif; color: var(--text); }
+  
+  .wrapper {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 28px;
+    min-height: 680px;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  
+  .brand-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  
+  .brand-name span { color: var(--accent2); }
+  
+  .tag {
+    background: rgba(124, 92, 252, 0.15);
+    border: 1px solid rgba(124, 92, 252, 0.3);
+    color: var(--accent2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Stack row */
+  .stack-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .stack-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .stack-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  
+  /* Section title */
+  .sec-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    margin-top: 20px;
+  }
+  
+  /* Modules grid */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .module-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    cursor: default;
+  }
+  
+  .module-card:hover { border-color: var(--border2); }
+  
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .module-card.finance::before { background: var(--green); }
+  .module-card.life::before { background: var(--accent); }
+  .module-card.health::before { background: var(--coral); }
+  .module-card.goals::before { background: var(--amber); }
+  .module-card.personal::before { background: var(--pink); }
+  .module-card.planner::before { background: var(--blue); }
+  
+  .mod-icon { font-size: 20px; margin-bottom: 8px; }
+  
+  .mod-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  
+  .mod-subs {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  
+  .mod-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  
+  .badge-tables { background: rgba(34,211,160,0.1); color: var(--green); }
+  .badge-views { background: rgba(124,92,252,0.1); color: var(--accent2); }
+  
+  /* DB Schema section */
+  .schema-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .schema-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  
+  .schema-title {
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    color: var(--accent2);
+  }
+  
+  .schema-field {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .field-type {
+    color: var(--amber);
+    font-size: 9px;
+  }
+  
+  .field-pk { color: var(--coral); font-size: 9px; }
+  .field-fk { color: var(--blue); font-size: 9px; }
+  
+  /* Auth flow */
+  .auth-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .auth-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 11px;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .auth-box .label { color: var(--muted); font-size: 9px; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .auth-box .val { font-weight: 500; font-size: 12px; }
+  
+  .arrow-right {
+    color: var(--muted);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  
+  /* Phases */
+  .phases-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  
+  .phase-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    opacity: 0.15;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  
+  .phase-name {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .phase-item {
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .phase-item::before {
+    content: '—';
+    color: var(--border2);
+    flex-shrink: 0;
+  }
+  
+  .phase-tag {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-weight: 500;
+  }
+  
+  .phase-tag.mvp { background: rgba(34,211,160,0.1); color: var(--green); }
+  .phase-tag.growth { background: rgba(245,158,11,0.1); color: var(--amber); }
+  .phase-tag.scale { background: rgba(124,92,252,0.1); color: var(--accent2); }
+  
+  /* Divider */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+</style>
+
+<div class="wrapper">
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">🌀</div>
+      <div class="brand-name">Life<span>OS</span> SaaS</div>
+    </div>
+    <div class="tag">ARQUITETURA v1.0</div>
+  </div>
+  
+  <!-- Stack -->
+  <div class="stack-row">
+    <div class="stack-pill"><span class="dot" style="background:#61dafb"></span>React 18 + Vite</div>
+    <div class="stack-pill"><span class="dot" style="background:#68a063"></span>Node.js + Express</div>
+    <div class="stack-pill"><span class="dot" style="background:#3ecf8e"></span>Supabase (PostgreSQL)</div>
+    <div class="stack-pill"><span class="dot" style="background:#7c5cfc"></span>Supabase Auth</div>
+    <div class="stack-pill"><span class="dot" style="background:#f59e0b"></span>React Query</div>
+    <div class="stack-pill"><span class="dot" style="background:#06b6d4"></span>Tailwind CSS</div>
+    <div class="stack-pill"><span class="dot" style="background:#ff6b6b"></span>Recharts</div>
+    <div class="stack-pill"><span class="dot" style="background:#22d3a0"></span>Antigravity / Vercel</div>
+  </div>
+  
+  <!-- Modules -->
+  <div class="sec-title">Módulos do Sistema</div>
+  <div class="modules-grid">
+    <div class="module-card finance">
+      <span class="mod-badge badge-tables">6 tabelas</span>
+      <div class="mod-icon">💰</div>
+      <div class="mod-name">Financeiro</div>
+      <div class="mod-subs">Ganhos · Despesas Fixas · Variáveis<br>Dívidas · Investimentos · Cartões · Cofrinho</div>
+    </div>
+    <div class="module-card goals">
+      <span class="mod-badge badge-tables">3 tabelas</span>
+      <div class="mod-icon">🎯</div>
+      <div class="mod-name">Metas</div>
+      <div class="mod-subs">Metas Financeiras · Wishlist · Mural dos Sonhos<br>Decisão de Compra · Categorias</div>
+    </div>
+    <div class="module-card life">
+      <span class="mod-badge badge-tables">3 tabelas</span>
+      <div class="mod-icon">✅</div>
+      <div class="mod-name">Tarefas & Hábitos</div>
+      <div class="mod-subs">Tasks com calendário · Rastreador de hábitos<br>Mood tracker · Organizador semanal/mensal</div>
+    </div>
+    <div class="module-card health">
+      <span class="mod-badge badge-tables">2 tabelas</span>
+      <div class="mod-icon">🏥</div>
+      <div class="mod-name">Saúde</div>
+      <div class="mod-subs">Skincare · Haircare<br>Consultas · Exames de rotina</div>
+    </div>
+    <div class="module-card planner">
+      <span class="mod-badge badge-views">calendário</span>
+      <div class="mod-icon">🥗</div>
+      <div class="mod-name">Alimentação</div>
+      <div class="mod-subs">Receitas · Cardápio semanal<br>Lista de compras · Restaurantes</div>
+    </div>
+    <div class="module-card personal">
+      <span class="mod-badge badge-tables">4 tabelas</span>
+      <div class="mod-icon">🔐</div>
+      <div class="mod-name">Pessoal</div>
+      <div class="mod-subs">Logins/Senhas · Documentos<br>Diário · Autoconhecimento · Exercício</div>
+    </div>
+  </div>
+  
+  <!-- DB Schema -->
+  <div class="sec-title">Schema — Tabelas Principais (Supabase)</div>
+  <div class="schema-row">
+    <div class="schema-card">
+      <div class="schema-title">users (profiles)</div>
+      <div class="schema-field"><span class="field-pk">PK</span> id uuid</div>
+      <div class="schema-field">name <span class="field-type">text</span></div>
+      <div class="schema-field">avatar_url <span class="field-type">text</span></div>
+      <div class="schema-field">age <span class="field-type">int</span></div>
+      <div class="schema-field">plan <span class="field-type">enum</span></div>
+      <div class="schema-field">created_at <span class="field-type">timestamp</span></div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-title">transactions</div>
+      <div class="schema-field"><span class="field-pk">PK</span> id uuid</div>
+      <div class="schema-field"><span class="field-fk">FK</span> user_id uuid</div>
+      <div class="schema-field">type <span class="field-type">enum</span></div>
+      <div class="schema-field">category <span class="field-type">text</span></div>
+      <div class="schema-field">amount <span class="field-type">numeric</span></div>
+      <div class="schema-field">month <span class="field-type">date</span></div>
+      <div class="schema-field">payment_method <span class="field-type">text</span></div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-title">goals</div>
+      <div class="schema-field"><span class="field-pk">PK</span> id uuid</div>
+      <div class="schema-field"><span class="field-fk">FK</span> user_id uuid</div>
+      <div class="schema-field">title <span class="field-type">text</span></div>
+      <div class="schema-field">category <span class="field-type">enum</span></div>
+      <div class="schema-field">target_value <span class="field-type">numeric</span></div>
+      <div class="schema-field">deadline <span class="field-type">date</span></div>
+      <div class="schema-field">cover_url <span class="field-type">text</span></div>
+    </div>
+    <div class="schema-card">
+      <div class="schema-title">habits + tasks</div>
+      <div class="schema-field"><span class="field-pk">PK</span> id uuid</div>
+      <div class="schema-field"><span class="field-fk">FK</span> user_id uuid</div>
+      <div class="schema-field">title <span class="field-type">text</span></div>
+      <div class="schema-field">type <span class="field-type">enum</span></div>
+      <div class="schema-field">due_date <span class="field-type">date</span></div>
+      <div class="schema-field">completed <span class="field-type">bool</span></div>
+      <div class="schema-field">mood <span class="field-type">int 1–5</span></div>
+    </div>
+  </div>
+  
+  <!-- Auth Flow -->
+  <div class="sec-title">Auth Flow — Supabase Auth</div>
+  <div class="auth-row">
+    <div class="auth-box">
+      <div class="label">Login</div>
+      <div class="val">Email + senha</div>
+    </div>
+    <div class="arrow-right">→</div>
+    <div class="auth-box">
+      <div class="label">Opção</div>
+      <div class="val">Google OAuth</div>
+    </div>
+    <div class="arrow-right">→</div>
+    <div class="auth-box">
+      <div class="label">Token</div>
+      <div class="val">JWT (Supabase)</div>
+    </div>
+    <div class="arrow-right">→</div>
+    <div class="auth-box">
+      <div class="label">Proteção</div>
+      <div class="val">RLS Policies</div>
+    </div>
+    <div class="arrow-right">→</div>
+    <div class="auth-box">
+      <div class="label">Isolamento</div>
+      <div class="val">user_id em todas as tabelas</div>
+    </div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <!-- Phases -->
+  <div class="sec-title">Roadmap de Desenvolvimento</div>
+  <div class="phases-row">
+    <div class="phase-card">
+      <div class="phase-num">01</div>
+      <div class="phase-name">MVP — Foundation</div>
+      <div class="phase-item">Setup Supabase + Auth completo</div>
+      <div class="phase-item">Dashboard principal + perfil</div>
+      <div class="phase-item">Módulo Financeiro (ganhos, fixas, variáveis)</div>
+      <div class="phase-item">Controle anual mês a mês</div>
+      <div class="phase-item">Deploy Antigravity/Vercel</div>
+      <span class="phase-tag mvp">Semanas 1–4</span>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">02</div>
+      <div class="phase-name">Growth — Core Modules</div>
+      <div class="phase-item">Módulo Metas + Mural dos Sonhos</div>
+      <div class="phase-item">Tarefas + Hábitos + Mood Tracker</div>
+      <div class="phase-item">Wishlist + Decisão de Compra</div>
+      <div class="phase-item">Calendário de Vencimentos</div>
+      <div class="phase-item">Notificações em-app</div>
+      <span class="phase-tag growth">Semanas 5–8</span>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">03</div>
+      <div class="phase-name">Scale — SaaS Features</div>
+      <div class="phase-item">Saúde, Alimentação, Exercício</div>
+      <div class="phase-item">Menu Pessoal (diário, senhas)</div>
+      <div class="phase-item">Planos de assinatura (Stripe)</div>
+      <div class="phase-item">Relatórios PDF exportáveis</div>
+      <div class="phase-item">Mobile-first refinamento</div>
+      <span class="phase-tag scale">Semanas 9–14</span>
+    </div>
+  </div>
+</div>
