@@ -7,6 +7,12 @@ export default function AdminPanel() {
     { email: 'elainex2018@gmail.com', password: '123456', status: null }
   ])
 
+  const updateUser = (index, field, value) => {
+    const newUsers = [...users]
+    newUsers[index][field] = value
+    setUsers(newUsers)
+  }
+
   const createUser = async (index) => {
     const user = users[index]
     const newUsers = [...users]
@@ -42,14 +48,31 @@ export default function AdminPanel() {
       <h1>🔐 Admin - Criar Usuários</h1>
       
       <div style={styles.infoBox}>
-        ℹ️ Clique nos botões abaixo para criar os usuários de login
+        ℹ️ Edite os emails e senhas abaixo e clique para criar os usuários
       </div>
 
       {users.map((user, idx) => (
         <div key={idx} style={styles.userCard}>
-          <div style={styles.userInfo}>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Senha:</strong> {user.password}</p>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Email:</label>
+            <input
+              type="email"
+              value={user.email}
+              onChange={(e) => updateUser(idx, 'email', e.target.value)}
+              style={styles.input}
+              placeholder="seu@email.com"
+            />
+          </div>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Senha:</label>
+            <input
+              type="password"
+              value={user.password}
+              onChange={(e) => updateUser(idx, 'password', e.target.value)}
+              style={styles.input}
+              placeholder="senha"
+            />
           </div>
 
           <button
@@ -117,9 +140,24 @@ const styles = {
     borderRadius: '8px',
     border: '1px solid #e0e0e0'
   },
-  userInfo: {
-    marginBottom: '15px',
-    fontSize: '14px'
+  formGroup: {
+    marginBottom: '15px'
+  },
+  label: {
+    display: 'block',
+    marginBottom: '5px',
+    color: '#333',
+    fontWeight: '600',
+    fontSize: '13px'
+  },
+  input: {
+    width: '100%',
+    padding: '10px',
+    border: '1px solid #ddd',
+    borderRadius: '6px',
+    fontSize: '14px',
+    boxSizing: 'border-box',
+    fontFamily: 'inherit'
   },
   button: {
     width: '100%',
