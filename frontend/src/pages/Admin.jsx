@@ -1,4 +1,9 @@
 import React, { useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default function AdminPanel() {
   const [users, setUsers] = useState([
@@ -19,38 +24,22 @@ export default function AdminPanel() {
     setUsers(newUsers)
 
     try {
-      const response = await fetch('/api/create-user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: user.email,
-          password: user.password
-        })
+      const { data, error } = await supabase.auth.signUp({
+        email: user.email,
+        password: user.password
       })
 
-      const responseText = await response.text()
-      let data
-
-      try {
-        data = JSON.parse(responseText)
-      } catch (e) {
-        newUsers[index].status = 'error'
-        newUsers[index].message = `Erro na resposta: ${responseText.substring(0, 100)}`
-        setUsers(newUsers)
-        return
-      }
-
-      if (!response.ok) {
-        if (response.status === 409) {
+      if (error) {
+        if (error.message.includes('already exists') || error.message.includes('Email already registered')) {
           newUsers[index].status = 'exists'
+          newUsers[index].message = 'Email já registrado'
         } else {
           newUsers[index].status = 'error'
-          newUsers[index].message = data.error || `Erro ${response.status}`
+          newUsers[index].message = error.message || 'Erro ao criar usuário'
         }
       } else {
         newUsers[index].status = 'success'
+        newUsers[index].message = `Criado: ${data.user?.id}`
       }
     } catch (error) {
       newUsers[index].status = 'error'
@@ -97,7 +86,8 @@ export default function AdminPanel() {
             disabled={user.status === 'loading'}
             style={{
               ...styles.button,
-              opacity: user.status === 'loading' ? 0.6 : 1
+              opacity: user.status === 'loading' ? 0.6 : 1,
+              cursor: user.status === 'loading' ? 'not-allowed' : 'pointer'
             }}
           >
             {user.status === 'loading' ? '⏳ Criando...' : `Criar Usuário ${idx + 1}`}
