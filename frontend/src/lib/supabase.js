@@ -1,16 +1,18 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+// Get from env or use fallback
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://wvncdusvpfbdsnclynxl.supabase.co'
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_z4Lj8R0e1VGKav0XdvfN2w_ZQmBFsF7'
+
+console.log('[Supabase] Initializing with URL:', supabaseUrl.substring(0, 40) + '...')
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase environment variables!')
-  console.error('Create frontend/.env.local with:')
-  console.error('VITE_SUPABASE_URL=your_url')
-  console.error('VITE_SUPABASE_ANON_KEY=your_key')
+  console.error('[Supabase] ERROR: Missing credentials!')
+  throw new Error('Supabase credentials not configured')
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+console.log('[Supabase] Client created successfully')
 
 // ==========================================
 // AUTH FUNCTIONS

@@ -16,8 +16,10 @@ function App() {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
+        console.log('[App] Initializing authentication')
         // Verificar se há usuário logado no Supabase
         const user = await getCurrentUser()
+        console.log('[App] Current user:', user?.email || 'none')
         
         if (user) {
           setUser(user)
@@ -40,7 +42,7 @@ function App() {
           setShowWelcome(false)
         }
       } catch (error) {
-        console.error('Erro ao inicializar:', error)
+        console.error('[App] Initialization error:', error)
       } finally {
         setLoading(false)
       }
