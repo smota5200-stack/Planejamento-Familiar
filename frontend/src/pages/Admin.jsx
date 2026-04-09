@@ -30,13 +30,14 @@ export default function AdminPanel() {
         })
       })
 
+      const responseText = await response.text()
       let data
+
       try {
-        data = await response.json()
+        data = JSON.parse(responseText)
       } catch (e) {
-        const text = await response.text()
         newUsers[index].status = 'error'
-        newUsers[index].message = `Erro ao processar resposta: ${text.substring(0, 50)}`
+        newUsers[index].message = `Erro na resposta: ${responseText.substring(0, 100)}`
         setUsers(newUsers)
         return
       }
