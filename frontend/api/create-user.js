@@ -17,12 +17,16 @@ export default async function handler(req, res) {
   try {
     const { email, password } = req.body;
 
+    console.log('Creating user:', email);
+
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password required' });
     }
 
     const SUPABASE_URL = 'https://wvncdusvpfbdsnclynxl.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_z4Lj8R0e1VGKav0XdvfN2w_ZQmBFsF7';
+
+    console.log('Calling Supabase signup...');
 
     const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
       method: 'POST',
@@ -36,7 +40,19 @@ export default async function handler(req, res) {
       }),
     });
 
-    const data = await response.json();
+    const responseText = await response.text();
+    console.log('Response status:', response.status);
+    console.log('Response text:', responseText);
+
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      return res.status(response.status || 500).json({ 
+        error: 'Invalid response from Supabase',
+        details: responseText.substring(0, 100)
+      });
+    }
 
     if (!response.ok) {
       if (data.error_code === 'user_already_exists' || data.message?.includes('already exists')) {
@@ -52,6 +68,6 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Error:', error);
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message || 'Internal server error' });
   }
 }

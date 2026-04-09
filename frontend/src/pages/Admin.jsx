@@ -30,21 +30,30 @@ export default function AdminPanel() {
         })
       })
 
-      const data = await response.json()
+      let data
+      try {
+        data = await response.json()
+      } catch (e) {
+        const text = await response.text()
+        newUsers[index].status = 'error'
+        newUsers[index].message = `Erro ao processar resposta: ${text.substring(0, 50)}`
+        setUsers(newUsers)
+        return
+      }
 
       if (!response.ok) {
         if (response.status === 409) {
           newUsers[index].status = 'exists'
         } else {
           newUsers[index].status = 'error'
-          newUsers[index].message = data.error || 'Erro ao criar usuário'
+          newUsers[index].message = data.error || `Erro ${response.status}`
         }
       } else {
         newUsers[index].status = 'success'
       }
     } catch (error) {
       newUsers[index].status = 'error'
-      newUsers[index].message = error.message
+      newUsers[index].message = error.message || 'Erro de conexão'
     }
 
     setUsers(newUsers)
