@@ -104,7 +104,7 @@ export default function Login() {
             type="submit"
             disabled={loading}
             className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 disabled:opacity-50 text-white font-bold py-4 px-6 rounded-xl transition transform hover:scale-105 shadow-lg shadow-purple-500/30"
-            style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '16px", fontWeight: 700 }}
+            style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '16px', fontWeight: 700 }}
           >
             {loading ? 'Entrando...' : 'Entrar'}
           </button>
