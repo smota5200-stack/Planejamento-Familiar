@@ -67,35 +67,6 @@ function App() {
     }
   }, [])
 
-  // Escutar sincronização em tempo real da família (para múltiplas abas)
-  useEffect(() => {
-    if (!family?.id) return
-
-    // Subscribe para mudanças na tabela families
-    const channel = supabase
-      .channel(`families:${family.id}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'families',
-          filter: `id=eq.${family.id}`
-        },
-        (payload) => {
-          // Quando há mudanças na família, atualizar
-          if (payload.new) {
-            setFamily(payload.new)
-          }
-        }
-      )
-      .subscribe()
-
-    return () => {
-      channel.unsubscribe()
-    }
-  }, [family?.id])
-
   const handleWelcomeEnd = () => {
     localStorage.setItem('welcomed', 'true')
     setShowWelcome(false)
